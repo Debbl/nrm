@@ -2,15 +2,13 @@
   "name": "@debbl/nrm",
   "type": "module",
   "version": "0.0.4",
-  "private": false,
-  "packageManager": "pnpm@8.6.8",
   "description": "NPM registry manager",
   "author": {
     "name": "Debbl",
     "email": "me@aiwan.run",
     "url": "https://github.com/Debbl/"
   },
-  "license": "ISC",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/Debbl/nrm/"
