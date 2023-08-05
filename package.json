@@ -1,7 +1,7 @@
 {
   "name": "@debbl/nrm",
   "type": "module",
-  "version": "0.0.6-beta.4",
+  "version": "0.0.6-beta.5",
   "description": "NPM registry manager",
   "author": {
     "name": "Debbl",
