@@ -2,10 +2,22 @@
   "name": "nrm",
   "type": "module",
   "version": "0.0.0",
-  "description": "",
-  "author": "",
+  "packageManager": "pnpm@8.6.8",
+  "description": "NPM registry manager",
+  "author": {
+    "name": "Debbl",
+    "email": "me@aiwan.run",
+    "url": "https://github.com/Debbl/"
+  },
   "license": "ISC",
-  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Debbl/nrm/"
+  },
+  "bugs": {
+    "url": "https://github.com/Debbl/nrm/issues/"
+  },
+  "keywords": ["npm", "npm registry", "npm registry manager"],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -17,6 +29,9 @@
   "bin": {
     "nrm": "./dist/index.cjs"
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "esno ./src/index.ts",
     "build": "unbuild",
