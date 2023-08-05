@@ -28,11 +28,11 @@
       "require": "./dist/index.cjs"
     }
   },
-  "main": "dist/index.cjs",
+  "main": "./index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "bin": {
-    "nrm": "./dist/index.cjs"
+    "nrm": "./index.js"
   },
   "files": [
     "dist"

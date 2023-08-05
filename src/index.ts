@@ -6,7 +6,7 @@ import { gray, green } from "kolorist";
 import execCommand from "./execCommand";
 import type { Registry, RegistryChoice } from "./types";
 
-const argv = minimist(process.argv.slice(2));
+const _argv = minimist(process.argv.slice(2));
 
 const currentRegistry = execCommand("npm config get registry").toString().trim();
 
