@@ -60,7 +60,6 @@ async function main() {
   }
 
   const registryName = result.registryName;
-  console.log("🚀 ~ file: index.ts:59 ~ main ~ registryName:", registryName);
   const registry = registries[registryName].registry;
   execCommand(`npm set registry ${registry}`);
 
