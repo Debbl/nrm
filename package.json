@@ -1,7 +1,8 @@
 {
   "name": "@debbl/nrm",
   "type": "module",
-  "version": "0.0.3",
+  "version": "0.0.4",
+  "private": false,
   "packageManager": "pnpm@8.6.8",
   "description": "NPM registry manager",
   "author": {
