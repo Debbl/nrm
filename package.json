@@ -1,7 +1,7 @@
 {
   "name": "@debbl/nrm",
   "type": "module",
-  "version": "0.0.6-beta.5",
+  "version": "0.0.6-beta.6",
   "description": "NPM registry manager",
   "author": {
     "name": "Debbl",
@@ -42,7 +42,7 @@
     "build": "unbuild",
     "lint": "eslint . --ignore-path .gitignore",
     "lint:fix": "eslint . --fix --ignore-path .gitignore",
-    "release": "bumpp && npm publish"
+    "release": "unbuild && bumpp && npm publish"
   },
   "dependencies": {
     "kolorist": "^1.8.0",
