@@ -4,52 +4,58 @@ import minimist from "minimist";
 import prompts from "prompts";
 import { gray, green } from "kolorist";
 import execCommand from "./execCommand";
-import type { Registry, RegistryChoice } from "./types";
+import type { Registries, RegistryChoice } from "./types";
 
 const _argv = minimist(process.argv.slice(2));
 
-const currentRegistry = execCommand("npm config get registry").toString().trim();
+const currentRegistry = execCommand("npm config get registry")
+  .toString()
+  .trim();
 
-const registries: Registry[] = [
-  {
-    name: "npmmirror",
+const registries: Registries = {
+  npmmirror: {
     registry: "https://registry.npmmirror.com/",
   },
-  {
-    name: "npm",
+  npm: {
     registry: "https://registry.npmjs.org/",
   },
-  {
-    name: "yarn",
+  yarn: {
     registry: "https://registry.yarnpkg.com/",
   },
-];
+};
 
-const registriesChoices: RegistryChoice[] = registries.map((r) => {
-  return {
-    title: r.registry === currentRegistry ? green(r.name) : r.name,
-    description: r.registry,
-    value: r,
-  };
-});
+const registriesChoices: RegistryChoice[] = Object.keys(registries).map(
+  (name) => {
+    const registry = registries[name].registry;
+    return {
+      title: registry === currentRegistry ? green(name) : name,
+      description: registry,
+      value: name,
+    };
+  },
+);
 
 async function main() {
-  const response: { registryInfo: Registry; } = await prompts([
+  const response: { registryName: string; } = await prompts([
     {
       type: "select",
-      name: "registryInfo",
+      name: "registryName",
       message: "Pick registry",
       choices: registriesChoices,
-      initial: registries.findIndex((r) => r.registry === currentRegistry) ?? 0,
+      initial:
+        Object.values(registries).findIndex(
+          (v) => v.registry === currentRegistry,
+        ) ?? 0,
     },
   ]);
 
-  const registryInfo = response.registryInfo;
-  execCommand(`npm set registry ${registryInfo.registry}`);
+  const registryName = response.registryName;
+  const registry = registries[registryName].registry;
+  execCommand(`npm set registry ${registry}`);
 
-  console.log("\nDone:\n");
-  console.log("Current registry is:\n");
-  console.log(`${registryInfo.name}: ${gray(registryInfo.registry)}`);
+  console.log("\nDone ✨");
+  console.log("Current registry is:");
+  console.log(`${green(registryName)}: ${gray(registry)}`);
 }
 
 main();
