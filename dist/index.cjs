@@ -56,7 +56,11 @@ async function main() {
           (v) => v.registry === currentRegistry
         ) ?? 0
       }
-    ]);
+    ], {
+      onCancel: () => {
+        throw new Error(`${kolorist.red("\u2716")} Operation cancelled`);
+      }
+    });
   } catch (e) {
     console.log(e.message);
     return;

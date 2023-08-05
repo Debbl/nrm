@@ -1,6 +1,6 @@
 import minimist from 'minimist';
 import prompts from 'prompts';
-import { green, gray } from 'kolorist';
+import { green, red, gray } from 'kolorist';
 import { execSync } from 'node:child_process';
 
 const execCommand = (command) => {
@@ -49,7 +49,11 @@ async function main() {
           (v) => v.registry === currentRegistry
         ) ?? 0
       }
-    ]);
+    ], {
+      onCancel: () => {
+        throw new Error(`${red("\u2716")} Operation cancelled`);
+      }
+    });
   } catch (e) {
     console.log(e.message);
     return;
