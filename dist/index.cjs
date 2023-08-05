@@ -44,18 +44,24 @@ const registriesChoices = Object.keys(registries).map(
   }
 );
 async function main() {
-  const response = await prompts__default([
-    {
-      type: "select",
-      name: "registryName",
-      message: "Pick registry",
-      choices: registriesChoices,
-      initial: Object.values(registries).findIndex(
-        (v) => v.registry === currentRegistry
-      ) ?? 0
-    }
-  ]);
-  const registryName = response.registryName;
+  let result;
+  try {
+    result = await prompts__default([
+      {
+        type: "select",
+        name: "registryName",
+        message: "Pick registry",
+        choices: registriesChoices,
+        initial: Object.values(registries).findIndex(
+          (v) => v.registry === currentRegistry
+        ) ?? 0
+      }
+    ]);
+  } catch (e) {
+    console.log(e.message);
+    return;
+  }
+  const registryName = result.registryName;
   const registry = registries[registryName].registry;
   execCommand(`npm set registry ${registry}`);
   console.log("\nDone \u2728");

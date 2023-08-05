@@ -2,7 +2,7 @@
 /* eslint-disable n/prefer-global/process */
 import minimist from "minimist";
 import prompts from "prompts";
-import { gray, green } from "kolorist";
+import { gray, green, red } from "kolorist";
 import execCommand from "./execCommand";
 import type { Registries, RegistryChoice } from "./types";
 
@@ -36,20 +36,31 @@ const registriesChoices: RegistryChoice[] = Object.keys(registries).map(
 );
 
 async function main() {
-  const response: { registryName: string; } = await prompts([
-    {
-      type: "select",
-      name: "registryName",
-      message: "Pick registry",
-      choices: registriesChoices,
-      initial:
+  let result: { registryName: string; };
+  try {
+    result = await prompts([
+      {
+        type: "select",
+        name: "registryName",
+        message: "Pick registry",
+        choices: registriesChoices,
+        initial:
         Object.values(registries).findIndex(
           (v) => v.registry === currentRegistry,
         ) ?? 0,
-    },
-  ]);
+      },
+    ], {
+      onCancel: () => {
+        throw new Error(`${red("✖")} Operation cancelled`);
+      },
+    });
+  } catch (e: any) {
+    console.log(e.message);
+    return;
+  }
 
-  const registryName = response.registryName;
+  const registryName = result.registryName;
+  console.log("🚀 ~ file: index.ts:59 ~ main ~ registryName:", registryName);
   const registry = registries[registryName].registry;
   execCommand(`npm set registry ${registry}`);
 
