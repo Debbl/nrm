@@ -1,7 +1,7 @@
 {
   "name": "nrm",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "packageManager": "pnpm@8.6.8",
   "description": "NPM registry manager",
   "author": {
@@ -17,7 +17,11 @@
   "bugs": {
     "url": "https://github.com/Debbl/nrm/issues/"
   },
-  "keywords": ["npm", "npm registry", "npm registry manager"],
+  "keywords": [
+    "npm",
+    "npm registry",
+    "npm registry manager"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -48,6 +52,7 @@
     "@types/minimist": "^1.2.2",
     "@types/node": "^20.4.7",
     "@types/prompts": "^2.4.4",
+    "bumpp": "^9.1.1",
     "eslint": "^8.46.0",
     "esno": "^0.17.0",
     "unbuild": "^1.2.1"
