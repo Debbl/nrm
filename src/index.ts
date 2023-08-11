@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable n/prefer-global/process */
 import minimist from "minimist";
 import prompts from "prompts";
@@ -14,10 +13,6 @@ import { NPMRC_PATH, NRMRC_PATH } from "./constants";
 
 async function onMain() {
   const currentRegistry = await getCurrentRegistry();
-  console.log(
-    "🚀 ~ file: index.ts:17 ~ onMain ~ currentRegistry:",
-    currentRegistry,
-  );
   const registries = await getRegistries();
 
   const registriesChoices: RegistryChoice[] = (
@@ -56,6 +51,7 @@ async function onMain() {
 
     if (!result.registryName) throw new Error(`${red("✖")} No optioned`);
   } catch (e: any) {
+    // eslint-disable-next-line no-console
     console.log(e.message);
     return;
   }
@@ -66,8 +62,11 @@ async function onMain() {
   const npmrc = await readFile(NPMRC_PATH);
   await writeFile(NPMRC_PATH, { ...npmrc, registry });
 
+  // eslint-disable-next-line no-console
   console.log("\nDone ✨");
+  // eslint-disable-next-line no-console
   console.log("Current registry is:");
+  // eslint-disable-next-line no-console
   console.log(`${green(registryName)}: ${gray(registry)}`);
 }
 
@@ -97,6 +96,7 @@ async function onAdd() {
     if (!result.customRegistryName || !result.customRegistry)
       throw new Error(`${red("✖")} Operation cancelled`);
   } catch (e: any) {
+    // eslint-disable-next-line no-console
     console.log(e.message);
     return;
   }
@@ -113,7 +113,9 @@ async function onAdd() {
   const nrmrc = await readFile(NRMRC_PATH);
   await writeFile(NRMRC_PATH, { ...nrmrc, ...registry });
 
+  // eslint-disable-next-line no-console
   console.log("\nDone ✨");
+  // eslint-disable-next-line no-console
   console.log(
     `add registry ${green(customRegistryName)}: ${gray(customRegistry)}`,
   );

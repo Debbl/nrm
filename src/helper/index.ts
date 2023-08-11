@@ -11,6 +11,7 @@ function readFile(filePath: string): Promise<Record<string, any>> {
         const content = ini.parse(fs.readFileSync(filePath, "utf-8"));
         resolve(content);
       } catch (err) {
+        // eslint-disable-next-line no-console
         console.log(err);
       }
     }
@@ -23,6 +24,7 @@ function writeFile(filePath: string, content: Record<string, any>): Promise<bool
       fs.writeFileSync(filePath, ini.stringify(content));
       resolve(true);
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.log(err);
     }
   });
