@@ -1,68 +1,171 @@
 import minimist from 'minimist';
 import prompts from 'prompts';
 import { green, red, gray } from 'kolorist';
-import { execSync } from 'node:child_process';
+import fs from 'node:fs';
+import ini from 'ini';
+import path from 'node:path';
 
-const execCommand = (command) => {
-  try {
-    const result = execSync(command);
-    return result;
-  } catch (e) {
-    console.log(e);
-    process.exit(0);
-  }
+const npm = {
+	home: "https://www.npmjs.org",
+	registry: "https://registry.npmjs.org/"
+};
+const yarn = {
+	home: "https://yarnpkg.com",
+	registry: "https://registry.yarnpkg.com/"
+};
+const tencent = {
+	home: "https://mirrors.cloud.tencent.com/npm/",
+	registry: "https://mirrors.cloud.tencent.com/npm/"
+};
+const cnpm = {
+	home: "https://cnpmjs.org",
+	registry: "https://r.cnpmjs.org/"
+};
+const taobao = {
+	home: "https://npmmirror.com",
+	registry: "https://registry.npmmirror.com/"
+};
+const npmMirror = {
+	home: "https://skimdb.npmjs.com/",
+	registry: "https://skimdb.npmjs.com/registry/"
+};
+const REGISTRIES = {
+	npm: npm,
+	yarn: yarn,
+	tencent: tencent,
+	cnpm: cnpm,
+	taobao: taobao,
+	npmMirror: npmMirror
 };
 
-minimist(process.argv.slice(2));
-const currentRegistry = execCommand("npm config get registry").toString().trim();
-const registries = {
-  npmmirror: {
-    registry: "https://registry.npmmirror.com/"
-  },
-  npm: {
-    registry: "https://registry.npmjs.org/"
-  },
-  yarn: {
-    registry: "https://registry.yarnpkg.com/"
-  }
-};
-const registriesChoices = Object.keys(registries).map(
-  (name) => {
-    const registry = registries[name].registry;
+const REGISTRY = "registry";
+const NRMRC_PATH = path.join(process.env[process.platform === "win32" ? "USERPROFILE" : "HOME"], ".nrmrc");
+const NPMRC_PATH = path.join(process.env[process.platform === "win32" ? "USERPROFILE" : "HOME"], ".npmrc");
+
+function readFile(filePath) {
+  return new Promise((resolve) => {
+    if (!fs.existsSync(filePath)) {
+      resolve({});
+    } else {
+      try {
+        const content = ini.parse(fs.readFileSync(filePath, "utf-8"));
+        resolve(content);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  });
+}
+function writeFile(filePath, content) {
+  return new Promise((resolve) => {
+    try {
+      fs.writeFileSync(filePath, ini.stringify(content));
+      resolve(true);
+    } catch (err) {
+      console.log(err);
+    }
+  });
+}
+async function getRegistries() {
+  const customRegistries = await readFile(NRMRC_PATH);
+  return { ...REGISTRIES, ...customRegistries };
+}
+async function getCurrentRegistry() {
+  const npmrc = await readFile(NPMRC_PATH);
+  return npmrc[REGISTRY] ?? "";
+}
+
+async function onMain() {
+  const currentRegistry = await getCurrentRegistry();
+  const registries = await getRegistries();
+  const registriesChoices = Object.keys(registries).map((name) => {
+    const registry2 = registries[name].registry;
     return {
-      title: registry === currentRegistry ? green(name) : name,
-      description: registry,
+      title: registry2 === currentRegistry ? green(name) : name,
+      description: registry2,
       value: name
     };
-  }
-);
-async function main() {
+  });
   let result;
   try {
-    result = await prompts([
+    result = await prompts(
+      [
+        {
+          // nrm
+          type: "select",
+          name: "registryName",
+          message: "Pick registry",
+          choices: registriesChoices,
+          initial: Object.values(registries).findIndex(
+            (v) => v.registry === currentRegistry
+          ) ?? 0
+        }
+      ],
       {
-        type: "select",
-        name: "registryName",
-        message: "Pick registry",
-        choices: registriesChoices,
-        initial: Object.values(registries).findIndex(
-          (v) => v.registry === currentRegistry
-        ) ?? 0
+        onCancel: () => {
+          throw new Error(`${red("\u2716")} Operation cancelled`);
+        }
       }
-    ], {
-      onCancel: () => {
-        throw new Error(`${red("\u2716")} Operation cancelled`);
-      }
-    });
+    );
+    if (!result.registryName)
+      throw new Error(`${red("\u2716")} No optioned`);
   } catch (e) {
     console.log(e.message);
     return;
   }
   const registryName = result.registryName;
   const registry = registries[registryName].registry;
-  execCommand(`npm set registry ${registry}`);
+  const npmrc = await readFile(NPMRC_PATH);
+  await writeFile(NPMRC_PATH, { ...npmrc, registry });
   console.log("\nDone \u2728");
   console.log("Current registry is:");
   console.log(`${green(registryName)}: ${gray(registry)}`);
 }
-main();
+async function onAdd() {
+  let result;
+  try {
+    result = await prompts(
+      [
+        {
+          type: "text",
+          name: "customRegistryName",
+          message: "Add your custom registry Name"
+        },
+        {
+          type: (prev) => prev !== "" ? "text" : null,
+          name: "customRegistry",
+          message: "Add your custom registry"
+        }
+      ],
+      {
+        onCancel: () => {
+          throw new Error(`${red("\u2716")} Operation cancelled`);
+        }
+      }
+    );
+    if (!result.customRegistryName || !result.customRegistry)
+      throw new Error(`${red("\u2716")} Operation cancelled`);
+  } catch (e) {
+    console.log(e.message);
+    return;
+  }
+  const customRegistryName = result.customRegistryName;
+  const customRegistry = result.customRegistry;
+  const registry = {
+    [customRegistryName]: {
+      registry: /\/$/.test(customRegistry) ? customRegistry : `${customRegistry}/`
+    }
+  };
+  const nrmrc = await readFile(NRMRC_PATH);
+  await writeFile(NRMRC_PATH, { ...nrmrc, ...registry });
+  console.log("\nDone \u2728");
+  console.log(
+    `add registry ${green(customRegistryName)}: ${gray(customRegistry)}`
+  );
+}
+const _argv = minimist(process.argv.slice(2));
+if (_argv._.length === 0) {
+  onMain();
+} else if (_argv._[0] === "add") {
+  onAdd();
+}
