@@ -119,9 +119,13 @@ async function onAdd() {
   );
 }
 
-const _argv = minimist(process.argv.slice(2));
-if (_argv._.length === 0) {
-  await onMain();
-} else if (_argv._[0] === "add") {
-  onAdd();
+async function main() {
+  const _argv = minimist(process.argv.slice(2));
+  if (_argv._.length === 0) {
+    await onMain();
+  } else if (_argv._[0] === "add") {
+    onAdd();
+  }
 }
+
+main();

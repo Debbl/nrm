@@ -39,8 +39,14 @@ const REGISTRIES = {
 };
 
 const REGISTRY = "registry";
-const NRMRC_PATH = path.join(process.env[process.platform === "win32" ? "USERPROFILE" : "HOME"], ".nrmrc");
-const NPMRC_PATH = path.join(process.env[process.platform === "win32" ? "USERPROFILE" : "HOME"], ".npmrc");
+const NRMRC_PATH = path.join(
+  process.env[process.platform === "win32" ? "USERPROFILE" : "HOME"],
+  ".nrmrc"
+);
+const NPMRC_PATH = path.join(
+  process.env[process.platform === "win32" ? "USERPROFILE" : "HOME"],
+  ".npmrc"
+);
 
 function readFile(filePath) {
   return new Promise((resolve) => {
@@ -77,6 +83,10 @@ async function getCurrentRegistry() {
 
 async function onMain() {
   const currentRegistry = await getCurrentRegistry();
+  console.log(
+    "\u{1F680} ~ file: index.ts:17 ~ onMain ~ currentRegistry:",
+    currentRegistry
+  );
   const registries = await getRegistries();
   const registriesChoices = Object.keys(registries).map((name) => {
     const registry2 = registries[name].registry;
@@ -86,19 +96,19 @@ async function onMain() {
       value: name
     };
   });
+  const index = Object.values(registries).findIndex(
+    (v) => v.registry === currentRegistry
+  );
   let result;
   try {
     result = await prompts(
       [
         {
-          // nrm
           type: "select",
           name: "registryName",
           message: "Pick registry",
           choices: registriesChoices,
-          initial: Object.values(registries).findIndex(
-            (v) => v.registry === currentRegistry
-          ) ?? 0
+          initial: index === -1 ? 0 : index
         }
       ],
       {
@@ -163,9 +173,12 @@ async function onAdd() {
     `add registry ${green(customRegistryName)}: ${gray(customRegistry)}`
   );
 }
-const _argv = minimist(process.argv.slice(2));
-if (_argv._.length === 0) {
-  onMain();
-} else if (_argv._[0] === "add") {
-  onAdd();
+async function main() {
+  const _argv = minimist(process.argv.slice(2));
+  if (_argv._.length === 0) {
+    await onMain();
+  } else if (_argv._[0] === "add") {
+    onAdd();
+  }
 }
+main();
