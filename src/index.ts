@@ -1,4 +1,3 @@
-/* eslint-disable n/prefer-global/process */
 import minimist from "minimist";
 import prompts from "prompts";
 import { gray, green, red } from "kolorist";
@@ -122,6 +121,7 @@ async function onAdd() {
 }
 
 async function main() {
+  // eslint-disable-next-line n/prefer-global/process
   const _argv = minimist(process.argv.slice(2));
   if (_argv._.length === 0) {
     await onMain();
