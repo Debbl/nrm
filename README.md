@@ -1,7 +1,23 @@
-# @debbl/nrm
+# Install
 
-npm registry manager
+```bash
+npm install -g @debbl/nrm
+```
 
-# credit
+# Usage
+
+## Select registry
+
+```bash
+nrm
+```
+
+## Add registry
+
+```bash
+nrm add
+```
+
+# Credit
 
 [nrm](https://github.com/Pana/nrm)
