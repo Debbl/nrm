@@ -12,11 +12,15 @@ npm install -g @debbl/nrm
 nrm
 ```
 
+![nrm](./images/nrm.png)
+
 ## Add registry
 
 ```bash
 nrm add
 ```
+
+![add](./images/add.png)
 
 # Credit
 
