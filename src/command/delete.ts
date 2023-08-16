@@ -30,7 +30,7 @@ async function onDelete() {
         {
           type: "select",
           name: "registryName",
-          message: "Pick registry",
+          message: "Pick the registry to delete",
           choices: registriesChoices,
           initial: index === -1 ? 0 : index,
         },
