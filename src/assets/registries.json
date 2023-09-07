@@ -7,20 +7,12 @@
     "home": "https://yarnpkg.com",
     "registry": "https://registry.yarnpkg.com/"
   },
-  "tencent": {
-    "home": "https://mirrors.cloud.tencent.com/npm/",
-    "registry": "https://mirrors.cloud.tencent.com/npm/"
-  },
   "cnpm": {
     "home": "https://cnpmjs.org",
     "registry": "https://r.cnpmjs.org/"
   },
-  "taobao": {
+  "npmmirror": {
     "home": "https://npmmirror.com",
     "registry": "https://registry.npmmirror.com/"
-  },
-  "npmMirror": {
-    "home": "https://skimdb.npmjs.com/",
-    "registry": "https://skimdb.npmjs.com/registry/"
   }
 }

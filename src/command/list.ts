@@ -1,4 +1,4 @@
-import { green } from "kolorist";
+import { gray, green } from "kolorist";
 import { getCurrentRegistry, getRegistries } from "../helper";
 import type { Registries, RegistryChoice } from "../types";
 
@@ -12,7 +12,7 @@ async function onList() {
     const registry = registries[name].registry;
     return {
       title: registry === currentRegistry ? green(name) : name,
-      description: registry,
+      description: gray(registry),
       value: name,
     };
   });
