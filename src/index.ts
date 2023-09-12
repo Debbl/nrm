@@ -41,7 +41,10 @@ program
 program
   .command("delete")
   .alias("del")
+  .argument("[registry]")
   .description("Delete one custom registry.")
-  .action(onDelete);
+  .action((registry) => {
+    onDelete(registry);
+  });
 
 program.parse();
