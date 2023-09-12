@@ -35,9 +35,14 @@ async function getRegistries() {
   return { ...REGISTRIES, ...customRegistries };
 }
 
+async function getCustomRegistries() {
+  const customRegistries = await readFile(NRMRC_PATH);
+  return customRegistries;
+}
+
 async function getCurrentRegistry() {
   const npmrc = await readFile(NPMRC_PATH) as { registry: string; };
   return npmrc[REGISTRY] ?? "";
 }
 
-export { readFile, writeFile, getCurrentRegistry, getRegistries };
+export { readFile, writeFile, getCurrentRegistry, getRegistries, getCustomRegistries };

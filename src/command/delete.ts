@@ -1,12 +1,12 @@
-import { green, red } from "kolorist";
+import { gray, green, red } from "kolorist";
 import prompts from "prompts";
-import { getCurrentRegistry, getRegistries, readFile, writeFile } from "../helper";
+import { getCurrentRegistry, getCustomRegistries, readFile, writeFile } from "../helper";
 import type { Registries, RegistryChoice } from "../types";
 import { NRMRC_PATH } from "../constants";
 
 async function onDelete() {
   const currentRegistry = await getCurrentRegistry();
-  const registries = await getRegistries();
+  const registries = await getCustomRegistries();
 
   const registriesChoices: RegistryChoice[] = (
     Object.keys(registries as Registries) as Array<keyof typeof registries>
@@ -50,6 +50,13 @@ async function onDelete() {
   }
 
   const registryName = result.registryName;
+  const delRegistry = registries[registryName].registry;
+
+  if (delRegistry === currentRegistry) {
+    // eslint-disable-next-line no-console
+    console.log(`${red("✖")} Cannot delete current registry`);
+    return;
+  }
 
   const nrmrc = await readFile(NRMRC_PATH);
   delete nrmrc[registryName];
@@ -58,7 +65,7 @@ async function onDelete() {
   // eslint-disable-next-line no-console
   console.log("\nDone ✨");
   // eslint-disable-next-line no-console
-  console.log(`Delete registry ${red(registryName)} success`);
+  console.log(`Delete registry ${red(registryName)} ${gray(delRegistry)} success`);
 }
 
 export {

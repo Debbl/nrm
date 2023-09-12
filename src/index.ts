@@ -27,12 +27,12 @@ program
 
 program
   .command("current")
-  .description("Show current registry.")
+  .description("Show current registry name.")
   .action(onCurrent);
 
 program
   .command("add")
-  .description("Add a new registry.")
+  .description("Add one custom registry.")
   .arguments("[name] [registry]")
   .action((name, registry) => {
     onAdd({ name, registry });
@@ -41,7 +41,7 @@ program
 program
   .command("delete")
   .alias("del")
-  .description("Delete a registry.")
+  .description("Delete one custom registry.")
   .action(onDelete);
 
 program.parse();
