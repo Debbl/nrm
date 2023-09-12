@@ -23,12 +23,12 @@ nrm add
 ![add](./images/add.png)
 
 # Todo
-- [ ] ls 
-- [ ] current
-- [ ] add
-- [ ] del
-- [x] del <registry>
-- [x] rename
+- [x] ls 
+- [x] current
+- [x] add
+- [x] del
+- [ ] del <registry>
+- [ ] rename
 
 # Credit
 
