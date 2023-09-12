@@ -12,7 +12,11 @@ program
   .action((_, options) => {
     if (options.args.length > 0) {
       // eslint-disable-next-line no-console
-      console.log(red("No command or subcommand specified. Please provide a valid command.\n"));
+      console.log(
+        red(
+          "No command or subcommand specified. Please provide a valid command.\n"
+        )
+      );
       program.outputHelp();
     } else {
       onMain();

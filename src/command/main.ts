@@ -1,6 +1,11 @@
 import { gray, green, red } from "kolorist";
 import prompts from "prompts";
-import { getCurrentRegistry, getRegistries, readFile, writeFile } from "../helper";
+import {
+  getCurrentRegistry,
+  getRegistries,
+  readFile,
+  writeFile,
+} from "../helper";
 import type { Registries, RegistryChoice } from "../types";
 import { NPMRC_PATH } from "../constants";
 
@@ -20,10 +25,10 @@ async function onMain() {
   });
 
   const index = Object.values(registries).findIndex(
-    (v) => v.registry === currentRegistry,
+    (v) => v.registry === currentRegistry
   );
 
-  let result: { registryName?: keyof Registries; };
+  let result: { registryName?: keyof Registries };
   try {
     result = await prompts(
       [
@@ -39,7 +44,7 @@ async function onMain() {
         onCancel: () => {
           throw new Error(`${red("✖")} Operation cancelled`);
         },
-      },
+      }
     );
 
     if (!result.registryName) throw new Error(`${red("✖")} No optioned`);
@@ -63,6 +68,4 @@ async function onMain() {
   console.log(`${green(registryName)}: ${gray(registry)}`);
 }
 
-export {
-  onMain,
-};
+export { onMain };

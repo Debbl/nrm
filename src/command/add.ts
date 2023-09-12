@@ -4,7 +4,7 @@ import { readFile, writeFile } from "../helper";
 import { NRMRC_PATH } from "../constants";
 
 async function logic() {
-  let result: { customRegistryName?: string; customRegistry?: string; };
+  let result: { customRegistryName?: string; customRegistry?: string };
   try {
     result = await prompts(
       [
@@ -23,7 +23,7 @@ async function logic() {
         onCancel: () => {
           throw new Error(`${red("✖")} Operation cancelled`);
         },
-      },
+      }
     );
 
     if (!result.customRegistryName || !result.customRegistry)
@@ -35,7 +35,7 @@ async function logic() {
   }
 }
 
-async function onAdd(params?: { name?: string; registry?: string; }) {
+async function onAdd(params?: { name?: string; registry?: string }) {
   let customRegistryName: string;
   let customRegistry: string;
 
@@ -52,7 +52,9 @@ async function onAdd(params?: { name?: string; registry?: string; }) {
 
   const registry = {
     [customRegistryName]: {
-      registry: /\/$/.test(customRegistry) ? customRegistry : `${customRegistry}/`,
+      registry: /\/$/.test(customRegistry)
+        ? customRegistry
+        : `${customRegistry}/`,
     },
   };
 
@@ -63,10 +65,8 @@ async function onAdd(params?: { name?: string; registry?: string; }) {
   console.log("\nDone ✨");
   // eslint-disable-next-line no-console
   console.log(
-    `add registry ${green(customRegistryName)}: ${gray(customRegistry)}`,
+    `add registry ${green(customRegistryName)}: ${gray(customRegistry)}`
   );
 }
 
-export {
-  onAdd,
-};
+export { onAdd };

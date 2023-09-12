@@ -29,10 +29,10 @@ async function logic() {
   });
 
   const index = Object.values(customRegistries).findIndex(
-    (v) => v.registry === currentRegistry,
+    (v) => v.registry === currentRegistry
   );
 
-  let result: { registryName: keyof Registries; };
+  let result: { registryName: keyof Registries };
   try {
     result = await prompts(
       [
@@ -48,7 +48,7 @@ async function logic() {
         onCancel: () => {
           throw new Error(`${red("✖")} Operation cancelled`);
         },
-      },
+      }
     );
 
     if (!result.registryName) throw new Error(`${red("✖")} No optioned`);
@@ -79,8 +79,8 @@ async function onDelete(registry?: string) {
       // eslint-disable-next-line no-console
       console.log(
         `${red("✖")} Cannot delete default registry ${red(registryName)} ${gray(
-          registries[registryName as keyof typeof registries].registry,
-        )}`,
+          registries[registryName as keyof typeof registries].registry
+        )}`
       );
       return;
     }
@@ -94,8 +94,8 @@ async function onDelete(registry?: string) {
     // eslint-disable-next-line no-console
     console.log(
       `${red("✖")} Cannot delete current registry ${red(registryName)} ${gray(
-        delRegistry,
-      )}`,
+        delRegistry
+      )}`
     );
     return;
   }
@@ -108,7 +108,7 @@ async function onDelete(registry?: string) {
   console.log("\nDone ✨");
   // eslint-disable-next-line no-console
   console.log(
-    `Delete registry ${red(registryName)} ${gray(delRegistry)} success`,
+    `Delete registry ${red(registryName)} ${gray(delRegistry)} success`
   );
 }
 

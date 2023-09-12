@@ -18,7 +18,10 @@ function readFile(filePath: string): Promise<Record<string, any>> {
   });
 }
 
-function writeFile(filePath: string, content: Record<string, any>): Promise<boolean> {
+function writeFile(
+  filePath: string,
+  content: Record<string, any>
+): Promise<boolean> {
   return new Promise((resolve) => {
     try {
       fs.writeFileSync(filePath, ini.stringify(content));
@@ -41,8 +44,14 @@ async function getCustomRegistries() {
 }
 
 async function getCurrentRegistry() {
-  const npmrc = await readFile(NPMRC_PATH) as { registry: string; };
+  const npmrc = (await readFile(NPMRC_PATH)) as { registry: string };
   return npmrc[REGISTRY] ?? "";
 }
 
-export { readFile, writeFile, getCurrentRegistry, getRegistries, getCustomRegistries };
+export {
+  readFile,
+  writeFile,
+  getCurrentRegistry,
+  getRegistries,
+  getCustomRegistries,
+};

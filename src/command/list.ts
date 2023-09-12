@@ -18,7 +18,7 @@ async function onList() {
   });
 
   const index = Object.values(registries).findIndex(
-    (v) => v.registry === currentRegistry,
+    (v) => v.registry === currentRegistry
   );
 
   registriesChoices.forEach((r, i) => {
@@ -27,6 +27,4 @@ async function onList() {
   });
 }
 
-export {
-  onList,
-};
+export { onList };

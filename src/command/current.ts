@@ -7,12 +7,18 @@ async function onCurrent() {
 
   const currentRegistry = await getCurrentRegistry();
 
-  const registryName = (
-    Object.keys(registries as Registries) as Array<keyof typeof registries>
-  ).find((r) => registries[r].registry === currentRegistry) ?? currentRegistry;
+  const registryName =
+    (
+      Object.keys(registries as Registries) as Array<keyof typeof registries>
+    ).find((r) => registries[r].registry === currentRegistry) ??
+    currentRegistry;
 
   // eslint-disable-next-line no-console
-  console.log("Current registry is:", green(registryName), gray(currentRegistry));
+  console.log(
+    "Current registry is:",
+    green(registryName),
+    gray(currentRegistry)
+  );
   // eslint-disable-next-line no-console
   console.log("\nDone ✨");
 }

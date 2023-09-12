@@ -11,12 +11,12 @@ const REGISTRY_ATTRS = [REGISTRY, HOME, AUTH, ALWAYS_AUTH];
 const NRMRC_PATH = path.join(
   // eslint-disable-next-line n/prefer-global/process
   process.env[process.platform === "win32" ? "USERPROFILE" : "HOME"]!,
-  ".nrmrc",
+  ".nrmrc"
 );
 const NPMRC_PATH = path.join(
   // eslint-disable-next-line n/prefer-global/process
   process.env[process.platform === "win32" ? "USERPROFILE" : "HOME"]!,
-  ".npmrc",
+  ".npmrc"
 );
 
 export {
