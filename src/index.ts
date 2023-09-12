@@ -1,9 +1,10 @@
 import { Command } from "commander";
+import { red } from "kolorist";
 import { version } from "../package.json";
-import onMain from "./command/main";
 import onAdd from "./command/add";
 import onDelete from "./command/delete";
 import onList from "./command/list";
+import onMain from "./command/main";
 
 const program = new Command();
 
@@ -11,7 +12,15 @@ program.version(version, "-v, --version");
 
 program
   .description("Pick a registry from a list of npm registries.")
-  .action(onMain);
+  .action((_, options) => {
+    if (options.args.length > 0) {
+      // eslint-disable-next-line no-console
+      console.log(red("No command or subcommand specified. Please provide a valid command.\n"));
+      program.outputHelp();
+    } else {
+      onMain();
+    }
+  });
 
 program
   .command("list")
