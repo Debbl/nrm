@@ -61,5 +61,7 @@ async function onDelete() {
   console.log(`Delete registry ${red(registryName)} success`);
 }
 
-export default onDelete;
+export {
+  onDelete,
+};
 

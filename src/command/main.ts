@@ -63,4 +63,6 @@ async function onMain() {
   console.log(`${green(registryName)}: ${gray(registry)}`);
 }
 
-export default onMain;
+export {
+  onMain,
+};

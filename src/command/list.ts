@@ -27,4 +27,6 @@ async function onList() {
   });
 }
 
-export default onList;
+export {
+  onList,
+};

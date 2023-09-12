@@ -1,10 +1,7 @@
 import { Command } from "commander";
 import { red } from "kolorist";
 import { version } from "../package.json";
-import onAdd from "./command/add";
-import onDelete from "./command/delete";
-import onList from "./command/list";
-import onMain from "./command/main";
+import { onAdd, onCurrent, onDelete, onList, onMain } from "./command";
 
 const program = new Command();
 
@@ -27,6 +24,11 @@ program
   .alias("ls")
   .description("List all registries.")
   .action(onList);
+
+program
+  .command("current")
+  .description("Show current registry.")
+  .action(onCurrent);
 
 program
   .command("add")

@@ -67,4 +67,6 @@ async function onAdd(params?: { name?: string; registry?: string; }) {
   );
 }
 
-export default onAdd;
+export {
+  onAdd,
+};
