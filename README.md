@@ -27,7 +27,7 @@ nrm add
 - [x] current
 - [x] add
 - [x] del
-- [ ] del \<registry\>
+- [x] del \<registry\>
 - [ ] rename
 
 # Credit
