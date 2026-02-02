@@ -58,7 +58,7 @@
     "@types/node": "^20.6.0",
     "@types/prompts": "^2.4.4",
     "bumpp": "^9.2.0",
-    "eslint": "^8.49.0",
+    "eslint": "^9.26.0",
     "esno": "^0.17.0",
     "typescript": "^5.2.2",
     "unbuild": "^1.2.1"
